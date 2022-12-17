@@ -52,11 +52,13 @@ export default function HomePage() {
 
   })
 
+  //set the react state of the cards
   const [cards, setCards] = React.useState(initcards);
 
   function flipCard(urltoflip: any) {
 
     console.log('flip!')
+
     //setCards to cards but the cards that was clicked should be flipped
 
     let desiredResult: Array<any> = (cards.map((eachCard: any) => {
