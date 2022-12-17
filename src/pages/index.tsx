@@ -36,7 +36,7 @@ export default function HomePage() {
 
   const backside = "/images/0103a18cef9961b6e3f2dab5e5aa308d.jpg"
 
-  var listofgeneratedcards: Array<string> = _.shuffle(_.concat(listOfBaseCards, ...listOfBaseCards))
+  const listofgeneratedcards: Array<string> = _.shuffle(_.concat(listOfBaseCards, ...listOfBaseCards))
 
   console.log('listofgeneratedcards', listofgeneratedcards)
 
@@ -59,7 +59,7 @@ export default function HomePage() {
     console.log('flip!')
     //setCards to cards but the cards that was clicked should be flipped
 
-    var desiredResult: Array<any> = (cards.map((eachCard: any) => {
+    let desiredResult: Array<any> = (cards.map((eachCard: any) => {
 
       if (eachCard.id === urltoflip) {
         return {
@@ -72,15 +72,15 @@ export default function HomePage() {
 
     }))
 
-    var numberOfCardsFlippedPerUrl: any = {}
+    const numberOfCardsFlippedPerUrl: any = {}
 
 
 
 
     //is it a won card checker 
-    var wonurl = ""
+    let wonurl = ""
 
-    var wonurls: Array<string> = []
+    const wonurls: Array<string> = []
 
 
     desiredResult.forEach((eachCard: any) => {
