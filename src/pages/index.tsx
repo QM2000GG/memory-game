@@ -22,14 +22,17 @@ import Vercel from '~/svg/Vercel.svg';
 
 export default function HomePage() {
 
-  const listOfBaseCards: Array<string> = [
-    "/images/54de566dd97bdfae3fb0564e81572f5b.jpg",
-    "/images/619fe9b796217efb089b50e2475eed0f.jpg",
-    "/images/0428127736a0dea95c365e6184ecac7b.jpg",
-    "/images/50603917776112bde06137fbfd8744c7.jpg",
-    "/images/f1cb4c69f71408206e172a99e0f2bb4b.jpg",
-    //"/images/fc6e47483ca93c1060e74a45e4c370fb.jpg"
-  ]
+  //list of possible cards to populate the screen with
+  const listOfBaseCards: Array<string> = _.shuffle(
+    [
+      "/images/54de566dd97bdfae3fb0564e81572f5b.jpg",
+      "/images/619fe9b796217efb089b50e2475eed0f.jpg",
+      "/images/0428127736a0dea95c365e6184ecac7b.jpg",
+      "/images/50603917776112bde06137fbfd8744c7.jpg",
+      "/images/f1cb4c69f71408206e172a99e0f2bb4b.jpg",
+      "/images/fc6e47483ca93c1060e74a45e4c370fb.jpg"
+    ]
+  ).slice(0, 5)
 
   const backside = "/images/0103a18cef9961b6e3f2dab5e5aa308d.jpg"
 
@@ -37,6 +40,8 @@ export default function HomePage() {
 
   console.log('listofgeneratedcards', listofgeneratedcards)
 
+
+  //initalize the cards that can be changed parameters
   const initcards = listofgeneratedcards.map((eachCard: string, id: number) => {
     return {
       'url': eachCard,
@@ -71,9 +76,11 @@ export default function HomePage() {
 
 
 
+
+    //is it a won card checker 
     var wonurl = ""
 
-    var wonurls = []
+    var wonurls: Array<string> = []
 
 
     desiredResult.forEach((eachCard: any) => {
@@ -120,6 +127,8 @@ export default function HomePage() {
 
       <main>
         { /*  create 10 cards on grid on screen using tailwind*/}
+
+        {/*If all cards are won, then say I won */}
         {cards.filter((eachCard: any) => eachCard.won === false).length === 0 && (
           <>
             <h1>You won!</h1><br></br></>
