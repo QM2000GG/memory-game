@@ -6,7 +6,7 @@ import ButtonLink from '@/components/links/ButtonLink';
 import UnderlineLink from '@/components/links/UnderlineLink';
 import UnstyledLink from '@/components/links/UnstyledLink';
 import Seo from '@/components/Seo';
-
+import _ from 'lodash';
 /**
  * SVGR Support
  * Caveat: No React Props Type.
@@ -21,53 +21,85 @@ import Vercel from '~/svg/Vercel.svg';
 // to customize the default configuration.
 
 export default function HomePage() {
+
+  const listOfBaseCards: Array<string> = [
+    "/images/54de566dd97bdfae3fb0564e81572f5b.jpg",
+    "/images/619fe9b796217efb089b50e2475eed0f.jpg",
+    "/images/0428127736a0dea95c365e6184ecac7b.jpg",
+    "/images/50603917776112bde06137fbfd8744c7.jpg",
+    "/images/f1cb4c69f71408206e172a99e0f2bb4b.jpg",
+    //"/images/fc6e47483ca93c1060e74a45e4c370fb.jpg"
+  ]
+
+  const backside = "/images/0103a18cef9961b6e3f2dab5e5aa308d.jpg"
+
+  var listofgeneratedcards: Array<string> = _.shuffle(_.concat(listOfBaseCards, ...listOfBaseCards))
+
+  console.log('listofgeneratedcards', listofgeneratedcards)
+
+  const initcards = listofgeneratedcards.map((eachCard: string, id: number) => {
+    return {
+      'url': eachCard,
+      "id": id,
+      'isflipped': false,
+      "won": false
+    }
+
+  })
+
+  const [cards, setCards] = React.useState(initcards);
+
+  function flipCard(urltoflip: any) {
+
+    console.log('flip!')
+    //setCards to cards but the cards that was clicked should be flipped
+
+    const desiredResult: Array<any> = (cards.map((eachCard: any) => {
+
+      if (eachCard.id === urltoflip) {
+        return {
+          ...eachCard,
+          isflipped: !eachCard.isflipped
+        }
+      } else {
+        return eachCard
+      }
+
+    }))
+
+    setCards(desiredResult)
+
+  }
+
+
+
   return (
     <Layout>
       {/* <Seo templateTitle='Home' /> */}
       <Seo />
 
       <main>
-        <section className='bg-white'>
-          <div className='layout flex min-h-screen flex-col items-center justify-center text-center'>
-            <Vercel className='text-5xl' />
-            <h1 className='mt-4'>
-              Next.js + Tailwind CSS + TypeScript Starter
-            </h1>
-            <p className='mt-2 text-sm text-gray-800'>
-              A starter for Next.js, Tailwind CSS, and TypeScript with Absolute
-              Import, Seo, Link component, pre-configured with Husky{' '}
-            </p>
-            <p className='mt-2 text-sm text-gray-700'>
-              <ArrowLink href='https://github.com/theodorusclarence/ts-nextjs-tailwind-starter'>
-                See the repository
-              </ArrowLink>
-            </p>
+        { /*  create 10 cards on grid on screen using tailwind*/}
 
-            <ButtonLink className='mt-6' href='/components' variant='light'>
-              See all components
-            </ButtonLink>
+        <div className="flex flex-row flex-wrap  gap-x-5 gap-y-4">
+          {cards.map((eachCard: any, index: number) => {
+            return (
+              <div className="bg-gray-300 w-40" key={index}
 
-            <UnstyledLink
-              href='https://vercel.com/new/git/external?repository-url=https%3A%2F%2Fgithub.com%2Ftheodorusclarence%2Fts-nextjs-tailwind-starter'
-              className='mt-4'
-            >
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                width='92'
-                height='32'
-                src='https://vercel.com/button'
-                alt='Deploy with Vercel'
-              />
-            </UnstyledLink>
 
-            <footer className='absolute bottom-2 text-gray-700'>
-              © {new Date().getFullYear()} By{' '}
-              <UnderlineLink href='https://theodorusclarence.com?ref=tsnextstarter'>
-                Theodorus Clarence
-              </UnderlineLink>
-            </footer>
-          </div>
-        </section>
+
+
+              >
+                <img src={eachCard.isflipped === true ? eachCard.url : backside} className=" w-40"
+
+                  onClick={(event: any) => flipCard(eachCard.id)}
+                />
+              </div>
+            )
+          })}
+        </div>
+
+
       </main>
     </Layout>
   );
